@@ -35,7 +35,7 @@ def index():
 
 @app.route('/add', methods=['POST'])
 def add_workout():
-
+    # Handles the form submission for adding a new workout.
 
 
 
@@ -43,6 +43,7 @@ def add_workout():
 
 @app.route('/delete/<int:id>')
 def delete_workout(id):
+    # Deletes a workout entry from the database.
 
 
 
