@@ -77,5 +77,5 @@ if __name__ == '__main__':
     # Create the database and tables if they don't exist.
     with app.app_context():
         db.create_all()
-    # Run the Flask application.
-    app.run(debug=True)
+    # Run the Flask application, on the local network, port 5000, with debuging enabled.
+    app.run(host='0.0.0.0', port=5000,  debug=True)
