@@ -36,17 +36,40 @@ def index():
 @app.route('/add', methods=['POST'])
 def add_workout():
     # Handles the form submission for adding a new workout.
+    exercise = request.form.get('exercise')
+    reps = request.form.get('reps')
+    weight = request.form.get('weight')
+    sets = request.form.get('sets')
 
+    if not exercise or not reps or not weight:
+        return redirect(url_for('index'))
 
+    try:
+        # Create a new workout object and add it to the database.
+        new_workout = Workout(
+            exercise=exercise,
+            reps=int(reps),
+            weight=float(weight),
+            sets=int(sets)
+        )
+        db.session.add(new_workout)
+        db.session.commit()
+    except (ValueError, TypeError):
+        # Handle cases where reps/weight are not valid numbers.
+        pass
 
     return redirect(url_for('index'))
 
 @app.route('/delete/<int:id>')
 def delete_workout(id):
     # Deletes a workout entry from the database.
-
-
-
+    workout_to_delete = Workout.query.get_or_404(id)
+    try:
+        db.session.delete(workout_to_delete)
+        db.session.commit()
+    except:
+        # Handle potential errors during deletion.
+        pass
     return redirect(url_for('index'))
 
 # --- Main Flask Execution ---
